@@ -1,0 +1,91 @@
+{
+  "asset": {
+    "version": "2.0",
+    "generator": "fractal-terrain (hand-written exporter)"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "name": "pickover-default"
+    }
+  ],
+  "meshes": [
+    {
+      "name": "pickover-default",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "COLOR_0": 1
+          },
+          "indices": 2,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "buffers": [
+    {
+      "uri": "pickover-default.bin",
+      "byteLength": 792600
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 199692,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 199692,
+      "byteLength": 199692,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 399384,
+      "byteLength": 393216,
+      "target": 34963
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 16641,
+      "type": "VEC3",
+      "min": [
+        -3,
+        0,
+        -3
+      ],
+      "max": [
+        3,
+        0.9569834470748901,
+        3
+      ]
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 16641,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5125,
+      "count": 98304,
+      "type": "SCALAR"
+    }
+  ]
+}

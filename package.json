@@ -1,0 +1,17 @@
+{
+  "name": "fractal-terrain",
+  "version": "0.1.0",
+  "description": "Turn escape-time fractal formulas into exportable 3D terrain meshes (glTF/OBJ), with automatic calibration per formula.",
+  "main": "cli.js",
+  "bin": {
+    "fractal-terrain": "./cli.js"
+  },
+  "scripts": {
+    "example": "node cli.js --formula pickover-biomorph --resolution 128 --out ./examples --name pickover-default --obj",
+    "build-site": "node build-site.js"
+  },
+  "keywords": ["fractal", "terrain", "procedural", "gltf", "three.js", "generative-art"],
+  "license": "MIT",
+  "author": "Alfonso Terán",
+  "dependencies": {}
+}
