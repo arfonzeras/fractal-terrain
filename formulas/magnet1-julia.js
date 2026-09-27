@@ -31,6 +31,7 @@ function iterate(cx, cy, c, iterMax) {
 module.exports = {
   name: 'magnet1-julia',
   description: 'Magnet Type I mean-field map, Julia dual (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
   defaultC: [0, 0],
   defaultDomainHalf: 6,  // tuned in Node — smaller windows were mostly
                          // converged/flat (ratio 0.72-0.94)

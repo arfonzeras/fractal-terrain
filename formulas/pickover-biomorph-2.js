@@ -26,6 +26,7 @@ function iterate(cx, cy, c, iterMax) {
 module.exports = {
   name: 'pickover-biomorph-2',
   description: 'sin(z) + z^2 + c, AND bailout — denser "bract" clustering than the first biomorph',
+  category: 'Julia-native',
   defaultC: [-1.0, -1.0],
   defaultDomainHalf: 8,
   iterate

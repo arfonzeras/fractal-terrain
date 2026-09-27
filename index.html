@@ -107,7 +107,7 @@
   <button id="download" disabled>Download .gltf</button>
 
   <div id="stats">—</div>
-  <div id="repoLink">All 10 formulas ship verified — see the <a href="https://github.com/arfonzeras/fractal-terrain#formulas-that-ship" target="_blank" rel="noopener">caveats table</a> before trusting one blindly.</div>
+  <div id="repoLink">All 18 formulas ship verified — see the <a href="https://github.com/arfonzeras/fractal-terrain#formulas-that-ship" target="_blank" rel="noopener">caveats tables</a> before trusting one blindly.</div>
 </div>
 
 <div id="hint">Drag to orbit, scroll to zoom</div>
@@ -189,11 +189,24 @@
   var dlBtn = document.getElementById('download');
   var statsEl = document.getElementById('stats');
 
+  var categoryOrder = ['Julia-native', 'Adapted from Mandelbrot', 'Simplified (convergence, not escape-time)'];
   var names = Object.keys(window.FORMULAS).sort();
+  var byCategory = {};
   names.forEach(function(n){
-    var opt = document.createElement('option');
-    opt.value = n; opt.textContent = n;
-    formulaSel.appendChild(opt);
+    var cat = window.FORMULAS[n].category || 'Other';
+    (byCategory[cat] = byCategory[cat] || []).push(n);
+  });
+  var orderedCats = categoryOrder.filter(function(c){ return byCategory[c]; })
+    .concat(Object.keys(byCategory).filter(function(c){ return categoryOrder.indexOf(c) === -1; }));
+  orderedCats.forEach(function(cat){
+    var group = document.createElement('optgroup');
+    group.label = cat;
+    byCategory[cat].forEach(function(n){
+      var opt = document.createElement('option');
+      opt.value = n; opt.textContent = n;
+      group.appendChild(opt);
+    });
+    formulaSel.appendChild(group);
   });
 
   function applyFormulaDefaults(){

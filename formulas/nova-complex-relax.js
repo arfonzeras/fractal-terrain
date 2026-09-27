@@ -35,6 +35,7 @@ function iterate(cx, cy, c, iterMax) {
 module.exports = {
   name: 'nova-complex-relax',
   description: 'Nova with complex relaxation R=1+i, Julia dual (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
   defaultC: [0.5, 0],   // NOT (0,0): checked in Node first — at c=(0,0) this
                          // is degenerate, 100% of the sampled domain
                          // converges within iterMax (a dead-flat terrain).

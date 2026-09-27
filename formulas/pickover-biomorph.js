@@ -29,6 +29,7 @@ function iterate(cx, cy, c, iterMax) {
 module.exports = {
   name: 'pickover-biomorph',
   description: 'sin(z) + e^z + c, AND bailout — filamentous biomorph structure',
+  category: 'Julia-native',
   defaultC: [0.2, 0.3],
   // A reasonable default view window in the complex plane. Not universal —
   // different c values can shift where the interesting structure sits.

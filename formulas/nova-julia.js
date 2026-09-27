@@ -38,6 +38,7 @@ function iterate(cx, cy, c, iterMax) {
 module.exports = {
   name: 'nova-julia',
   description: 'Newton on z^3-1 + c, Julia dual of Nova (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
   defaultC: [0, 0],
   defaultDomainHalf: 2,
   iterate

@@ -1,5 +1,104 @@
 // AUTO-GENERATED from /formulas/*.js by build-site.js — do not hand-edit.
 window.FORMULAS = {};
+window.FORMULAS["burning-bird-julia"] = (function(){
+/**
+ * Burning Bird — like Burning Ship but only |Im(z)| is taken before
+ * squaring, not |Re(z)|. Ported from burningbird.ts (base fork content).
+ * ADAPTED: original is Mandelbrot convention (pixel=c, z0=0); here
+ * pixel=z0, c=this tool's tunable parameter.
+ */
+
+const escape = 4;
+
+function iterate(cx, cy, c, iterMax) {
+  let zx = cx, zy = cy, sqx = zx*zx, sqy = zy*zy, i = 0;
+  const cyF = -c[1];
+  while (true) {
+    const zny = (zx + zx) * zy + cyF;
+    const znx = sqx - sqy + c[0];
+    zx = znx;
+    zy = Math.abs(zny);
+    if (++i >= iterMax) break;
+    sqx = zx * zx; sqy = zy * zy;
+    if (sqx + sqy > escape) break;
+  }
+  return i;
+}
+
+return {
+  name: 'burning-bird-julia',
+  description: 'Burning Bird, Julia dual (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
+  defaultC: [-0.7269, 0.1889],
+  defaultDomainHalf: 1.5,
+  iterate
+};
+})();
+window.FORMULAS["burning-ship-julia"] = (function(){
+/**
+ * Burning Ship — like Mandelbrot but |Re(z)|,|Im(z)| are taken before
+ * squaring each step. Ported from burningship.ts (base fork content).
+ * ADAPTED: original is Mandelbrot convention (pixel=c, z0=0); here
+ * pixel=z0, c=this tool's tunable parameter (placeholder default below —
+ * see README for the value actually picked after testing in Node).
+ */
+
+const escape = 4;
+
+function iterate(cx, cy, c, iterMax) {
+  let zx = cx, zy = cy, sqx = zx*zx, sqy = zy*zy, i = 0;
+  const cyF = -c[1]; // original negates cy before the loop ("usually drawn upside down")
+  while (true) {
+    const zny = (zx + zx) * zy + cyF;
+    const znx = sqx - sqy + c[0];
+    zx = Math.abs(znx);
+    zy = Math.abs(zny);
+    if (++i >= iterMax) break;
+    sqx = zx * zx; sqy = zy * zy;
+    if (sqx + sqy > escape) break;
+  }
+  return i;
+}
+
+return {
+  name: 'burning-ship-julia',
+  description: 'Burning Ship, Julia dual (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
+  defaultC: [-0.75, 0.11],
+  defaultDomainHalf: 3,
+  iterate
+};
+})();
+window.FORMULAS["julia"] = (function(){
+/**
+ * Classic Julia set — z(n+1) = z(n)^2 + c. Ported from julia.ts in
+ * arfonzeras/FractalJS (the base fork content, not one of his PRs).
+ * Already Julia-native (pixel=z0, c fixed at 0.285+0.01i in the source) —
+ * no adaptation needed, unlike the Mandelbrot-family formulas below.
+ */
+
+const escape = 4;
+
+function iterate(cx, cy, c, iterMax) {
+  let znx = cx, zny = cy, sqx = cx * cx, sqy = cy * cy, i = 0;
+  for (; i < iterMax && sqx + sqy <= escape; i++) {
+    zny = (znx + znx) * zny + c[1];
+    znx = sqx - sqy + c[0];
+    sqx = znx * znx;
+    sqy = zny * zny;
+  }
+  return i;
+}
+
+return {
+  name: 'julia',
+  description: 'z^2 + c, the classic Julia set — Julia-native, no adaptation',
+  category: 'Julia-native',
+  defaultC: [0.285, 0.01],
+  defaultDomainHalf: 1.6,
+  iterate
+};
+})();
 window.FORMULAS["magnet1-julia"] = (function(){
 /**
  * Magnet Type I — z(n+1) = ((z^2+c-1)/(2z+c-2))^2.
@@ -32,6 +131,7 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'magnet1-julia',
   description: 'Magnet Type I mean-field map, Julia dual (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
   defaultC: [0, 0],
   defaultDomainHalf: 6,  // tuned in Node — smaller windows were mostly
                          // converged/flat (ratio 0.72-0.94)
@@ -77,9 +177,104 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'magnet2-julia',
   description: 'Magnet Type II mean-field map, Julia dual (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
   defaultC: [0, 0],
   defaultDomainHalf: 10,  // tuned in Node — smaller windows were mostly
                           // converged/flat (ratio 0.66-0.67)
+  iterate
+};
+})();
+window.FORMULAS["mandelbrot-julia"] = (function(){
+/**
+ * z^2 + c. Ported from mandelbrot.ts (base fork content). ADAPTED: the
+ * original is Mandelbrot convention (pixel=c, z0=0). Here pixel=z0
+ * (varies across the terrain), c=this tool's tunable parameter. Default
+ * c reuses julia.ts's own choice (0.285, 0.01) — a known well-formed
+ * Julia set for this exact map, rather than the degenerate plain circle
+ * you get at c=(0,0).
+ */
+
+const escape = 4;
+
+function iterate(cx, cy, c, iterMax) {
+  let znx = cx, zny = cy, sqx = cx * cx, sqy = cy * cy, i = 0;
+  for (; i < iterMax && sqx + sqy <= escape; i++) {
+    zny = (znx + znx) * zny + c[1];
+    znx = sqx - sqy + c[0];
+    sqx = znx * znx;
+    sqy = zny * zny;
+  }
+  return i;
+}
+
+return {
+  name: 'mandelbrot-julia',
+  description: 'z^2 + c, Julia dual of Mandelbrot (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
+  defaultC: [0.355, 0.355],
+  defaultDomainHalf: 1.5,
+  iterate
+};
+})();
+window.FORMULAS["multibrot3-julia"] = (function(){
+/**
+ * z^3 + c (Multibrot power 3). Ported from mandelbrot3.ts (base fork
+ * content). ADAPTED: original is Mandelbrot convention (pixel=c, z0=0);
+ * here pixel=z0, c=this tool's tunable parameter.
+ */
+
+const escape = 4;
+
+function iterate(cx, cy, c, iterMax) {
+  let zx = cx, zy = cy, sqx = zx*zx, sqy = zy*zy, i = 0;
+  while (true) {
+    const znx = sqx*zx - 3*zx*sqy + c[0];
+    const zny = 3*sqx*zy - sqy*zy + c[1];
+    zx = znx; zy = zny;
+    if (++i >= iterMax) break;
+    sqx = zx*zx; sqy = zy*zy;
+    if (sqx + sqy > escape) break;
+  }
+  return i;
+}
+
+return {
+  name: 'multibrot3-julia',
+  description: 'z^3 + c, Julia dual of Multibrot*3 (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
+  defaultC: [-0.4, 0.6],
+  defaultDomainHalf: 1.5,
+  iterate
+};
+})();
+window.FORMULAS["multibrot4-julia"] = (function(){
+/**
+ * z^4 + c (Multibrot power 4). Ported from mandelbrot4.ts (base fork
+ * content). ADAPTED: original is Mandelbrot convention (pixel=c, z0=0);
+ * here pixel=z0, c=this tool's tunable parameter.
+ */
+
+const escape = 4;
+
+function iterate(cx, cy, c, iterMax) {
+  let zx = cx, zy = cy, sqx = zx*zx, sqy = zy*zy, i = 0;
+  while (true) {
+    const znx = sqx*sqx - 6*sqx*sqy + sqy*sqy + c[0];
+    const zny = 4*sqx*zx*zy - 4*zx*sqy*zy + c[1];
+    zx = znx; zy = zny;
+    if (++i >= iterMax) break;
+    sqx = zx*zx; sqy = zy*zy;
+    if (sqx + sqy > escape) break;
+  }
+  return i;
+}
+
+return {
+  name: 'multibrot4-julia',
+  description: 'z^4 + c, Julia dual of Multibrot*4 (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
+  defaultC: [-0.75, 0.11],
+  defaultDomainHalf: 3,
   iterate
 };
 })();
@@ -139,6 +334,7 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'newton-simplified',
   description: 'Newton on z^3-1, convergence speed only (basin/root distinction dropped — see file comment)',
+  category: 'Simplified (convergence, not escape-time)',
   defaultC: [0, 0],
   defaultDomainHalf: 2,
   iterate
@@ -180,6 +376,7 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'nova-complex-relax',
   description: 'Nova with complex relaxation R=1+i, Julia dual (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
   defaultC: [0.5, 0],   // NOT (0,0): checked in Node first — at c=(0,0) this
                          // is degenerate, 100% of the sampled domain
                          // converges within iterMax (a dead-flat terrain).
@@ -217,6 +414,7 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'nova-inverse',
   description: 'Newton on cos(z)-1 (= tan(z/2) step) + c — periodic, bead-like chain structure',
+  category: 'Julia-native',
   defaultC: [0.3, 0.2],
   defaultDomainHalf: 10,
   iterate
@@ -261,8 +459,45 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'nova-julia',
   description: 'Newton on z^3-1 + c, Julia dual of Nova (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
   defaultC: [0, 0],
   defaultDomainHalf: 2,
+  iterate
+};
+})();
+window.FORMULAS["phoenix"] = (function(){
+/**
+ * Phoenix fractal — a second-order recurrence (uses the PREVIOUS step's z
+ * as well as the current one): x(n+1) = x^2 - y^2 + c.x + c.y*x(n-1),
+ * y(n+1) = 2xy + c.y*y(n-1). Ported from phoenix.ts in arfonzeras/
+ * FractalJS (base fork content). Already maps the pixel into the starting
+ * z0 (via a 90-degree coordinate swap the original source itself does:
+ * x0=-cy, y0=cx) with c fixed — Julia-native, no Mandelbrot-convention
+ * adaptation needed, unlike burning-ship/burning-bird/mandelbrot below.
+ */
+
+const escape = 4;
+
+function iterate(cx, cy, c, iterMax) {
+  let x = -cy, y = cx, xm1 = 0, ym1 = 0;
+  let sx = 0, sy = 0, i = 0;
+  for (; i < iterMax && sx + sy <= escape; i++) {
+    const xp1 = x * x - y * y + c[0] + c[1] * xm1;
+    const yp1 = 2 * x * y + c[1] * ym1;
+    sx = xp1 * xp1;
+    sy = yp1 * yp1;
+    xm1 = x; ym1 = y;
+    x = xp1; y = yp1;
+  }
+  return i;
+}
+
+return {
+  name: 'phoenix',
+  description: 'Second-order recurrence with memory of the previous step — Julia-native (pixel maps to z0 via a coordinate swap)',
+  category: 'Julia-native',
+  defaultC: [0.5667, -0.5],
+  defaultDomainHalf: 1.6,
   iterate
 };
 })();
@@ -293,6 +528,7 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'pickover-biomorph-2',
   description: 'sin(z) + z^2 + c, AND bailout — denser "bract" clustering than the first biomorph',
+  category: 'Julia-native',
   defaultC: [-1.0, -1.0],
   defaultDomainHalf: 8,
   iterate
@@ -328,6 +564,7 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'pickover-biomorph',
   description: 'sin(z) + e^z + c, AND bailout — filamentous biomorph structure',
+  category: 'Julia-native',
   defaultC: [0.2, 0.3],
   // A reasonable default view window in the complex plane. Not universal —
   // different c values can shift where the interesting structure sits.
@@ -385,7 +622,40 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'secant-simplified',
   description: 'Secant method on z^3-1, convergence speed only (basin/root distinction dropped — see file comment)',
+  category: 'Simplified (convergence, not escape-time)',
   defaultC: [0, 0],
+  defaultDomainHalf: 2,
+  iterate
+};
+})();
+window.FORMULAS["tippetts-julia"] = (function(){
+/**
+ * Tippetts fractal — a swapped-order variant of z^2+c (the real part is
+ * updated using the NEW imaginary part's role reversed vs. Mandelbrot;
+ * see the exact step below, ported as-is from tippetts.ts, base fork
+ * content). ADAPTED: original is Mandelbrot convention (pixel=c, z0=0);
+ * here pixel=z0, c=this tool's tunable parameter. Source only implements
+ * the plain (non-smooth) iteration, so that's all this ports.
+ */
+
+const escape = 4;
+
+function iterate(cx, cy, c, iterMax) {
+  let zx = cx, zy = cy, sqx = zx*zx, sqy = zy*zy, i = 0;
+  for (; i < iterMax && sqx + sqy <= escape; i++) {
+    zx = sqx - sqy + c[0];
+    zy = (zx + zx) * zy + c[1];
+    sqx = zx * zx;
+    sqy = zy * zy;
+  }
+  return i;
+}
+
+return {
+  name: 'tippetts-julia',
+  description: 'Swapped-order z^2+c variant, Julia dual of Tippetts (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
+  defaultC: [0.285, 0.01],
   defaultDomainHalf: 2,
   iterate
 };
@@ -422,6 +692,7 @@ function iterate(cx, cy, c, iterMax) {
 return {
   name: 'tricorn-julia',
   description: 'conj(z)^2 + c, Julia dual of Tricorn/Mandelbar (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
   defaultC: [0, 0],
   defaultDomainHalf: 1.8, // tuned in Node: the Mandelbrot preset's w=3.5
                           // showed almost no structure once reinterpreted

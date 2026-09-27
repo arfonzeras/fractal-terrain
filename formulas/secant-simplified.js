@@ -49,6 +49,7 @@ function iterate(cx, cy, c, iterMax) {
 module.exports = {
   name: 'secant-simplified',
   description: 'Secant method on z^3-1, convergence speed only (basin/root distinction dropped — see file comment)',
+  category: 'Simplified (convergence, not escape-time)',
   defaultC: [0, 0],
   defaultDomainHalf: 2,
   iterate

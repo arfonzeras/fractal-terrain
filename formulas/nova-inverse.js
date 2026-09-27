@@ -28,6 +28,7 @@ function iterate(cx, cy, c, iterMax) {
 module.exports = {
   name: 'nova-inverse',
   description: 'Newton on cos(z)-1 (= tan(z/2) step) + c — periodic, bead-like chain structure',
+  category: 'Julia-native',
   defaultC: [0.3, 0.2],
   defaultDomainHalf: 10,
   iterate

@@ -31,6 +31,7 @@ function iterate(cx, cy, c, iterMax) {
 module.exports = {
   name: 'tricorn-julia',
   description: 'conj(z)^2 + c, Julia dual of Tricorn/Mandelbar (pixel=z0, c fixed — see file comment)',
+  category: 'Adapted from Mandelbrot',
   defaultC: [0, 0],
   defaultDomainHalf: 1.8, // tuned in Node: the Mandelbrot preset's w=3.5
                           // showed almost no structure once reinterpreted
